@@ -9,8 +9,27 @@ function addTask(){
         li.innerHTML = inputBox.value;
         listContainer.appendChild(li);
         let span = document.createElement("span");
-        span.innerHTML = "\U00d7"
+        span.innerHTML = "\0xd7"
         li.appendChild(span)
     }
-    inputBox.value = ""
+    inputBox.value = "";
+    saveData();
 }
+listContainer.addEventListener("click", function(e){
+    if(e.target.tagName === "LI"){
+        e.target.classList.toggle("checked");
+        saveData();
+    }
+    else if (e.target.tagName === "SPAN"){
+        e.target.parentElement.remove();
+        saveData();
+    }
+}, false);
+
+function saveData(){
+    localStorage.setItem("data", listContainer.innerHTML);
+}
+function showTask(){
+    listContainer.innerHTML = localStorage.getItem("data");
+}
+showTask();
